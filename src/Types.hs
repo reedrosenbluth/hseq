@@ -62,4 +62,4 @@ data Hit = Hit
 
 makeLenses ''Hit
 
-type Composition = [Hit]
+newtype Composition = Composition {run :: [Hit]}
