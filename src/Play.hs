@@ -4,9 +4,7 @@ module Play
   )
 where
 
-import Control.Monad
-import Control.Monad.Trans
-import Control.Monad.Trans.State
+import Control.Monad.State
 import Control.Lens
 import Control.Concurrent
 import System.MIDI
