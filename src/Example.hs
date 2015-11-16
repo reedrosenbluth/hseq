@@ -4,25 +4,25 @@ import Data.Monoid
 
 import Types
 import Interpret
+import Drum
 import Play
 
-bd :: Hit
-bd = Hit BassDrum1 300 100
+beat1 = mconcat [ mkComposition [hi, hi, hi, hi],
+                  mkComposition [bd, sn, bd, sn] ]
+                
+bs = mkComposition $ cycle [bd, sn, bd, sn, bd, n8 sn, dot bd, sn]
 
-sn :: Hit
-sn = Hit SnareDrum1 300 100
+h8 = mkComposition $ replicate 8 (n8 hi)
 
-hi :: Hit
-hi = Hit ClosedHihat 300 100
+h12 = mkComposition $ replicate 12 (n8 hi)
 
-rt :: Hit
-rt = Hit BassDrum1 300 0
+trill = mkComposition $ replicate 8 (n16 hi)
 
-ex1 :: Composition
-ex1 = mkComposition [rt, hi, rt, hi]
+hats = h8 <|> trill <|> h12 <|> trill <|> (mkComposition [n4 hi, hi, hi])
 
-ex2 :: Composition
-ex2 = mkComposition [bd, rt, bd, rt]
-
-ex3 :: Composition
-ex3 = ex1 <> ex2
+trap = mconcat [ hats,
+                 mkComposition [n1 bd, n1 sn, n1 bd, n1 sn]]
+                  
+house = mconcat [ mkComposition $ cycle [dot $ n8 rt, n4 hi]
+                , mkComposition $ cycle [n8 rt, n4 hi, n4 hi, n4 hi, n4 hi]
+                , mkComposition $ cycle [n4 bd, n4 bd, n4 bd, n4 bd]]
