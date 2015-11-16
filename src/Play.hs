@@ -4,6 +4,7 @@ module Play
   )
 where
 
+import Control.Monad
 import Control.Monad.State
 import Control.Lens
 import Control.Concurrent
@@ -14,7 +15,7 @@ import Types
 import Interpret
 
 hitToMidiEvent :: Hit -> MidiEvent
-hitToMidiEvent h = MidiEvent d (MidiMessage 10 (NoteOn t v))
+hitToMidiEvent h = MidiEvent d (MidiMessage 1 (NoteOn t v))
   where
     t = 35 + fromEnum (h ^. tone)
     d = fromIntegral $ h ^. dur
@@ -26,7 +27,7 @@ getConnection = do
     case dstlist of
       [] -> error "No MIDI Devices found."
       (dst:_) -> openDestination dst
-
+      
 play :: Composition -> IO ()
 play comp = do
     conn <- getConnection
@@ -39,11 +40,11 @@ runComposition = do
   (conn, comp) <- get
   t <- lift $ currentTime conn
   case comp of
-    (Composition [])     -> return ()
-    (Composition (h:hs)) -> do
+    (Composition [] _)     -> return ()
+    (Composition (h:hs) ld) -> do
       let x@(MidiEvent s ev) = hitToMidiEvent h
       when (s < t) $ do
-        put (conn, Composition hs)
+        put (conn, Composition hs ld)
         lift $ send conn ev
       lift $ threadDelay 250
       runComposition
