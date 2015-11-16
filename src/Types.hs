@@ -58,8 +58,11 @@ data Hit = Hit
     { _tone :: Sound
     , _dur  :: Int
     , _vol  :: Int
-    }
-
+    } deriving (Show)
+    
 makeLenses ''Hit
 
-newtype Composition = Composition {run :: [Hit]}
+data Composition = Composition
+    { run    :: [Hit]
+    , endDur :: Int
+    } deriving (Show)
