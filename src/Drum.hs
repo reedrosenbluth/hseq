@@ -1,5 +1,5 @@
 module Drum where
-  
+
 import Types
 import Control.Lens
 
