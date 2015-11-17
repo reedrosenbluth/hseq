@@ -20,7 +20,7 @@ beat = mkComposition [bass, snare, bass, hihat]
 
 Finally we can play it
 ```haskell
-play beat
+> play beat
 ```
 
 ## Inspiration
