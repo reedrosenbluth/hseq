@@ -8,7 +8,7 @@ It is currently a work in progress.
 
 Let's define a few quarter note length drum hits
 ```haskell
-> bass = n4 $ Hit BassDrum1 0 100
+> bass  = n4 $ Hit BassDrum1 0 100
 > snare = n4 $ Hit SnareDrum2 0 100
 > hihat = n4 $ Hit ClosedHihat 0 100
 ```
