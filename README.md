@@ -8,19 +8,19 @@ It is currently a work in progress.
 
 Let's define a few quarter note length drum hits
 ```haskell
-> bass  = n4 $ Hit BassDrum1 0 100
-> snare = n4 $ Hit SnareDrum2 0 100
-> hihat = n4 $ Hit ClosedHihat 0 100
+bass  = n4 $ Hit BassDrum1 0 100
+snare = n4 $ Hit SnareDrum2 0 100
+hihat = n4 $ Hit ClosedHihat 0 100
 ```
 
 Now let's create a simple composition
 ```haskell
-> beat = mkComposition [bass, snare, bass, hihat]
+beat = mkComposition [bass, snare, bass, hihat]
 ```
 
 Finally we can play it
 ```haskell
-> play beat
+play beat
 ```
 
 ## Inspiration
