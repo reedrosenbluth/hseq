@@ -2,43 +2,24 @@ module Interpret where
 
 import Types
 import Control.Lens
-import Data.Monoid
 
-instance Monoid Composition where
-  mempty  = Composition [] 0
-  mappend = merge
+totalDur :: Beat -> Int
+totalDur (Single hit)     = hit ^. dur
+totalDur (Series c1 c2)   = totalDur c1 + totalDur c2
+totalDur (Parallel c1 c2) = max (totalDur c1) (totalDur c2)
+totalDur None             = 0
 
-lastHitDur :: [Hit] -> Int
-lastHitDur []     = 0
-lastHitDur [h]    = h ^. dur
-lastHitDur (h:hs) = lastHitDur hs
+mergeHits :: [Hit] -> [Hit] -> [Hit]
+mergeHits [] ys = ys
+mergeHits xs [] = xs
+mergeHits (x:xs) (y:ys)
+  | (x ^. dur) <= (y ^. dur) = x : mergeHits xs (y:ys)
+  | otherwise                = y : mergeHits (x:xs) ys
 
-mkComposition :: [Hit] -> Composition
-mkComposition hits = Composition (zipWith replaceDur hits durs')
-                                 (lastHitDur hits)
+interpret :: Composition a -> [Hit]
+interpret (Composition (beat, _)) = go 0 beat
   where
-    durs  = map (view dur) hits
-    durs' = 0 : scanl1 (+) durs
-    replaceDur h d = h & dur .~ d
-
-merge :: Composition -> Composition -> Composition
-merge (Composition as la) (Composition bs lb) =
-  Composition (mergeHits as bs) (max la lb)
-  where
-    mergeHits [] ys = ys
-    mergeHits xs [] = xs
-    mergeHits (a:xs) (b:ys)
-      | (a ^. dur) <= (b ^. dur) = a : mergeHits xs (b:ys)
-      | otherwise = b : mergeHits (a:xs) ys
-
-totalDur :: Composition -> Int
-totalDur (Composition c _) = foldr (\a b -> (a ^. dur) + b) 0 c
-
-infixr 6 <|>
-(<|>) :: Composition -> Composition -> Composition
-c1@(Composition as la) <|> (Composition bs lb) =
-  Composition hs lb
-  where
-    bs' = map (over dur (+ tdur)) bs
-    tdur = la + lastHitDur as
-    hs = as ++ bs'
+    go d (Single hit)     = [hit & dur .~ d]
+    go d (Series b1 b2)   = go d b1 ++ go (d + totalDur b1) b2
+    go d (Parallel b1 b2) = mergeHits (go d b1) (go d b2)
+    go _ None             = []

@@ -12,6 +12,7 @@ import System.MIDI
 import System.Info
 
 import Types
+import Interpret
 
 hitToMidiEvent :: Hit -> MidiEvent
 hitToMidiEvent h = MidiEvent d (MidiMessage 1 (NoteOn t v))
@@ -27,23 +28,23 @@ getConnection = do
       [] -> error "No MIDI Devices found."
       (dst:_) -> openDestination dst
 
-play :: Composition -> IO ()
+play :: Composition a -> IO ()
 play comp = do
     conn <- getConnection
     start conn
-    evalStateT runComposition (conn, comp)
+    evalStateT runComposition (conn, interpret comp)
     close conn
 
-runComposition :: StateT (Connection, Composition) IO ()
+runComposition :: StateT (Connection, [Hit]) IO ()
 runComposition = do
   (conn, comp) <- get
   t <- lift $ currentTime conn
   case comp of
-    (Composition [] _)     -> return ()
-    (Composition (h:hs) ld) -> do
-      let x@(MidiEvent s ev) = hitToMidiEvent h
+    []     -> return ()
+    (h:hs) -> do
+      let (MidiEvent s ev) = hitToMidiEvent h
       when (s < t) $ do
-        put (conn, Composition hs ld)
+        put (conn, hs)
         lift $ send conn ev
       lift $ threadDelay 250
       runComposition

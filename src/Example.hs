@@ -1,29 +1,28 @@
 module Example where
 
 import Data.Monoid
+import Control.Monad
 
-import Interpret
+import Types
 import Drum
 import Play
 
-beat1 = mconcat [ mkComposition [hi, hi, hi, hi],
-                  mkComposition [bd, sn, bd, sn] ]
+beat1 = mconcat [ sequence_ [hi, hi, hi, hi],
+                  sequence_ [bd, sn, bd, sn] ]
 
-bs = mkComposition $ cycle [bd, sn, bd, sn, bd, n8 sn, dot bd, sn]
+h8    = replicateM_ 8 (n8 hi)
+h12   = replicateM_ 12 (n8 hi)
+trill = replicateM_ 8 (n16 hi)
 
-h2 = mkComposition $ replicate 2 (n4 hi)
+hats = h8 >> trill >> h12 >> trill >> n4 hi >> n4 hi
 
-h8 = mkComposition $ replicate 8 (n8 hi)
+trap = hats <> (n1 bd >> n1 sn >> n1 bd >> n1 sn)
 
-h12 = mkComposition $ replicate 12 (n8 hi)
+wassup = n2 bd >> n8 bd >> n4 sn >> n2 bd >> n8 bd >> n4 bd >> n2 sn
 
-trill = mkComposition $ replicate 8 (n16 hi)
-
-hats = h8 <|> trill <|> h12 <|> trill <|> (mkComposition [n4 hi, hi, hi])
-
-trap = mconcat [ hats,
-                 mkComposition [n1 bd, n1 sn, n1 bd, n1 sn]]
-
-house = mconcat [ mkComposition $ cycle [dot $ n8 rt, n4 hi]
-                , mkComposition $ cycle [n8 rt, n4 hi, n4 hi, n4 hi, n4 hi]
-                , mkComposition $ cycle [n4 bd, n4 bd, n4 bd, n4 bd]]
+icecube :: Song
+icecube = measure BassDrum1   8 "7... .... 7... .... 7... .... 7.77 .7.."
+       <> measure BassDrum2   8 ".... 7... .... 7... .... 7... .... 7..."
+       <> measure SnareDrum2  8 ".... 4... .... 4... .... 4... .... 4..."
+       <> measure ClosedHihat 8 "7.7. 7.77 .77. 7.77 7.7. 7.77 .77. ...."
+       <> measure OpenHihat   8 ".... .... .... .... .... .... .... .7.."
