@@ -1,15 +1,11 @@
-module Play
-  ( hitToMidiEvent
-  , play
-  )
-where
+module Play (play, play') where
 
+import Data.Ratio
 import Control.Monad
 import Control.Monad.State
 import Control.Lens
 import Control.Concurrent
 import System.MIDI
-import System.Info
 
 import Types
 import Interpret
@@ -17,9 +13,10 @@ import Interpret
 hitToMidiEvent :: Hit -> MidiEvent
 hitToMidiEvent h = MidiEvent d (MidiMessage 1 (NoteOn t v))
   where
-    t = 35 + fromEnum (h ^. tone)
-    d = fromIntegral $ h ^. dur
-    v = h ^. vol
+    t  = 35 + fromEnum (h ^. tone)
+    d  = fromR $ h ^. dur
+    v  = fromR $ h ^. vol
+    fromR r = fromIntegral $ numerator r `div` denominator r
 
 getConnection :: IO Connection
 getConnection = do
@@ -28,12 +25,15 @@ getConnection = do
       [] -> error "No MIDI Devices found."
       (dst:_) -> openDestination dst
 
-play :: Composition a -> IO ()
-play comp = do
+play :: Composition a -> Rational -> IO ()
+play comp n = do
     conn <- getConnection
     start conn
-    evalStateT runComposition (conn, interpret comp)
+    evalStateT runComposition (conn, interpret n comp)
     close conn
+
+play' :: Composition a -> IO ()
+play' = flip play 120
 
 runComposition :: StateT (Connection, [Hit]) IO ()
 runComposition = do

@@ -3,6 +3,7 @@
 module Types where
 
 import Data.Monoid
+import Data.Ratio
 import Control.Applicative
 import Control.Monad
 import Control.Lens
@@ -24,8 +25,8 @@ data Sound =
 
 data Hit = Hit
     { _tone :: Sound
-    , _dur  :: Int
-    , _vol  :: Int
+    , _dur  :: Rational
+    , _vol  :: Rational
     } deriving (Show)
 
 makeLenses ''Hit
@@ -37,7 +38,7 @@ data Beat =
   | Parallel Beat Beat
   deriving Show
 
-newtype Composition a = Composition {unComp :: (Beat, a)} deriving Show
+data Composition a = Composition {unComp :: (Beat, a)} deriving Show
 
 type Song = Composition ()
 

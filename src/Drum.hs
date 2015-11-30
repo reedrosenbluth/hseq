@@ -1,17 +1,18 @@
 module Drum where
 
 import Types
+import Data.Ratio
 import Control.Lens
 import Control.Monad
 
-volume :: Int
-volume = 100
+volume :: Rational
+volume = 140
 
-quarter :: Int
-quarter = 280
+note :: Rational -> Song -> Song
+note n = cmap (\h -> h & dur .~ 4 / n)
 
-note :: Int -> Song -> Song
-note n = cmap (\h -> h & dur .~ (round (fromIntegral quarter * 4) `div` n))
+dot :: Song -> Song
+dot = cmap (\h -> h & dur %~ (* 1.5))
 
 n1, n2, n4, n8, n16, n32, n64 :: Song -> Song
 n1  = note 1
@@ -25,13 +26,10 @@ n64 = note 64
 loop :: Song -> Song
 loop s = s >> loop s
 
--- dot :: Hit -> Hit
--- dot h = h & dur %~ (\d -> round (fromIntegral d * 1.5))
-
 song :: Hit -> Song
 song h = Composition (Single h, ())
 
-velocity :: Int -> Song -> Song
+velocity :: Rational -> Song -> Song
 velocity v = cmap (\h -> h & vol .~ max 0 (min 127 v))
 
 bd :: Song
@@ -46,13 +44,13 @@ hi = n4 $ song (Hit ClosedHihat 0 volume)
 rt :: Song
 rt = n4 $ song (Hit BassDrum1 0 0)
 
-measure :: Sound -> Int -> String -> Song
-measure s n cs = zipWithM_ velocity vs ts
+dseq :: Sound -> Rational -> String -> Song
+dseq s n cs = zipWithM_ velocity vs ts
   where
     vs = map toVol (filter (`elem` ".0123456789") cs)
     ts = repeat $ note n (song $ Hit s 0 0)
 
-toVol :: Char -> Int
+toVol :: Char -> Rational
 toVol '.' = 0
 toVol '0' = 10
 toVol '1' = 20
