@@ -8,6 +8,7 @@ import Control.Applicative
 import Control.Monad
 import Control.Lens
 
+-- | Types of drum sounds
 data Sound =
      BassDrum2     | BassDrum1     | SideStick    | SnareDrum1
    | HandClap      | SnareDrum2    | LowTom2      | ClosedHihat
@@ -29,8 +30,15 @@ data Hit = Hit
     , _vol  :: Rational
     } deriving (Show)
 
+-- instance Arbitrary Hit where
+--   arbitrary = do
+--     tone <- Sound
+--     dur  <- arbitrary
+--     vol  <- arbitrary
+
 makeLenses ''Hit
 
+-- | Used for combining Hits and Beats
 data Beat =
     None
   | Single   Hit
@@ -38,7 +46,9 @@ data Beat =
   | Parallel Beat Beat
   deriving Show
 
-data Composition a = Composition {unComp :: (Beat, a)} deriving Show
+-- | We wrap a `Beat` in the `Composition` data structure in order
+-- create a monad instance for it.
+data Composition a = Composition (Beat, a) deriving Show
 
 type Song = Composition ()
 
@@ -49,6 +59,8 @@ instance Applicative Composition where
   pure  = return
   (<*>) = ap
 
+-- | This is basically a specialized instance of the write monad
+-- for composing compositions in series.
 instance Monad Composition where
   return a = Composition (None, a)
   Composition (b, a) >>= k =
@@ -60,6 +72,7 @@ instance Monoid (Composition ()) where
   mappend (Composition (b1, _)) (Composition (b2, _))
     = Composition (Parallel b1 b2, ())
 
+-- | Lift a function on `Hit`s over a `Composition`
 cmap :: (Hit -> Hit) -> Composition a -> Composition a
 cmap f (Composition (c,a)) = Composition (hmap f c, a)
   where
