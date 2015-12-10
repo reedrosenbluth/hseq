@@ -1,4 +1,4 @@
-module Play (play, play') where
+module Play (play, play', loop') where
 
 import Data.Ratio
 import Control.Monad
@@ -8,6 +8,7 @@ import Control.Concurrent
 import System.MIDI
 
 import Types
+import Drum
 import Interpret
 
 hitToMidiEvent :: Hit -> MidiEvent
@@ -34,6 +35,9 @@ play comp n = do
 
 play' :: Composition a -> IO ()
 play' = flip play 120
+
+loop' :: Song -> Rational -> IO ()
+loop' s = play (loop s)
 
 runComposition :: StateT (Connection, [Hit]) IO ()
 runComposition = do
