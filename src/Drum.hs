@@ -6,7 +6,7 @@ import Control.Lens
 import Control.Monad
 
 volume :: Rational
-volume = 140
+volume = 127
 
 note :: Rational -> Song -> Song
 note n = cmap (\h -> h & dur .~ 4 / n)
