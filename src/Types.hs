@@ -38,11 +38,12 @@ data Hit = Hit
     , _vol  :: Rational
     } deriving (Show)
 
--- instance Arbitrary Hit where
---   arbitrary = do
---     tone <- Sound
---     dur  <- arbitrary
---     vol  <- arbitrary
+instance Arbitrary Hit where
+  arbitrary = do
+    tone <- arbitrary
+    Positive dur  <- arbitrary
+    Positive vol  <- arbitrary
+    return $ Hit tone dur vol
 
 makeLenses ''Hit
 
