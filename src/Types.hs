@@ -6,7 +6,7 @@ import Data.Monoid
 import Data.Ratio
 import Control.Applicative
 import Control.Monad
-import Control.Lens
+import Control.Lens hiding (elements)
 import System.Random
 import Test.QuickCheck
 
@@ -41,8 +41,8 @@ data Hit = Hit
 instance Arbitrary Hit where
   arbitrary = do
     tone <- arbitrary
-    Positive dur  <- arbitrary
-    Positive vol  <- arbitrary
+    dur  <- toRational <$> choose (1 :: Int, 64)
+    vol  <- toRational <$> choose (0 :: Int, 127)
     return $ Hit tone dur vol
 
 makeLenses ''Hit
@@ -55,11 +55,26 @@ data Beat =
   | Parallel Beat Beat
   deriving Show
 
+instance Arbitrary Beat where
+  arbitrary = sized arbnB
+
+arbnB :: Int -> Gen Beat
+arbnB n = frequency [
+    (1, return None),
+    (3, liftM  Single arbitrary),
+    (n, liftM2 Series (arbnB (n `div` 2)) (arbnB (n `div` 2))),
+    (n, liftM2 Parallel (arbnB (n `div` 8)) (arbnB (n `div` 8))) ]
+
 -- | We wrap a `Beat` in the `Composition` data structure in order
 -- create a monad instance for it.
 data Composition a = Composition (Beat, a) deriving Show
 
 type Song = Composition ()
+
+instance Arbitrary Song where
+  arbitrary = do
+    b <- arbitrary :: Gen Beat
+    return $ Composition (b, ())
 
 instance Functor Composition where
   fmap = liftM
