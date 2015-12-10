@@ -7,6 +7,8 @@ import Data.Ratio
 import Control.Applicative
 import Control.Monad
 import Control.Lens
+import System.Random
+import Test.QuickCheck
 
 -- | Types of drum sounds
 data Sound =
@@ -22,8 +24,14 @@ data Sound =
    | ShortWhistle  | LongWhistle   | ShortGuiro   | LongGuiro
    | Claves        | HighWoodBlock | LowWoodBlock | MuteCuica
    | OpenCuica     | MuteTriangle  | OpenTriangle
-   deriving (Show, Eq, Ord, Enum)
+   deriving (Show, Eq, Ord, Enum, Bounded)
 
+instance Arbitrary Sound where
+  arbitrary = toEnum <$> choose
+    (fromEnum (minBound :: Sound),
+     fromEnum (maxBound :: Sound))
+
+-- | A drum `Hit` with a tone, duration, and volume
 data Hit = Hit
     { _tone :: Sound
     , _dur  :: Rational
