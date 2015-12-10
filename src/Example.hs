@@ -14,7 +14,7 @@ beat1 = mconcat [ sequence_ [hi, hi, hi, hi],
 wassup = n2 bd >> n8 bd >> n4 sn >> n2 bd >> n8 bd >> n4 bd >> n2 sn
 
 -- Trap Beat
--- Tempo: 230
+-- Tempo: 210
 h8    = replicateM_ 8 (n8 hi)
 h12   = replicateM_ 12 (n8 hi)
 trill = replicateM_ 8 (n16 hi)
