@@ -21,6 +21,8 @@ bpm2ms bpm = ceiling $ 1000*60 / fromIntegral bpm
 -- NOTE: Samples taken from "conductive-examples"
 
 instruments = words "kick snare hihat"
+instruments = Hand
+
 
 loadInstrumentSample name = return $ "static/" ++ name ++ ".wav"
 
