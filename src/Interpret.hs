@@ -13,8 +13,8 @@ mergeHits :: [Hit] -> [Hit] -> [Hit]
 mergeHits [] ys = ys
 mergeHits xs [] = xs
 mergeHits (x:xs) (y:ys)
-  | x <= y  = x : mergeHits xs (y:ys)
-  | otherwise                = y : mergeHits (x:xs) ys
+  | x <= y    = x : mergeHits xs (y:ys)
+  | otherwise = y : mergeHits (x:xs) ys
 
 applyTempo :: Rational -> Composition a -> Composition a
 applyTempo n = cmap (\h -> h & dur *~ (60000 / n))
