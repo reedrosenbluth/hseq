@@ -47,6 +47,22 @@ instance Arbitrary Hit where
 
 makeLenses ''Hit
 
+cmpToneVol :: Hit -> Hit -> Bool
+cmpToneVol x y
+  | xTone  < yTone = True
+  | xTone == yTone = x ^. vol < y ^. vol
+  | otherwise = False
+  where xTone = x^. tone
+        yTone = y ^. tone
+
+instance Ord Hit where
+  x <= y
+    | xDur  < yDur = True
+    | xDur == yDur = cmpToneVol x y
+    | otherwise    = False
+    where xDur = x ^. dur
+          yDur = y ^. dur
+
 -- | Used for combining Hits and Beats
 data Beat =
     None
