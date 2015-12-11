@@ -67,7 +67,7 @@ arbnB n = frequency [
 
 -- | We wrap a `Beat` in the `Composition` data structure in order
 -- create a monad instance for it.
-data Composition a = Composition (Beat, a) deriving (Show, Eq)
+data Composition a = Composition (Beat, a) deriving (Show)
 
 type Song = Composition ()
 
