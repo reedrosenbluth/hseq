@@ -52,7 +52,7 @@ cmpToneVol x y
   | xTone  < yTone = True
   | xTone == yTone = x ^. vol < y ^. vol
   | otherwise = False
-  where xTone = x^. tone
+  where xTone = x ^. tone
         yTone = y ^. tone
 
 instance Ord Hit where
