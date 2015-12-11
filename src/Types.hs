@@ -36,7 +36,7 @@ data Hit = Hit
     { _tone :: Sound
     , _dur  :: Rational
     , _vol  :: Rational
-    } deriving (Show)
+    } deriving (Show, Eq)
 
 instance Arbitrary Hit where
   arbitrary = do
@@ -53,7 +53,7 @@ data Beat =
   | Single   Hit
   | Series   Beat Beat
   | Parallel Beat Beat
-  deriving Show
+  deriving (Show, Eq)
 
 instance Arbitrary Beat where
   arbitrary = sized arbnB
@@ -67,7 +67,7 @@ arbnB n = frequency [
 
 -- | We wrap a `Beat` in the `Composition` data structure in order
 -- create a monad instance for it.
-data Composition a = Composition (Beat, a) deriving Show
+data Composition a = Composition (Beat, a) deriving (Show, Eq)
 
 type Song = Composition ()
 
