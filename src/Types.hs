@@ -47,6 +47,22 @@ instance Arbitrary Hit where
 
 makeLenses ''Hit
 
+cmpToneVol :: Hit -> Hit -> Bool
+cmpToneVol x y
+  | xTone  < yTone = True
+  | xTone == yTone = x ^. vol < y ^. vol
+  | otherwise = False
+  where xTone = x^. tone
+        yTone = y ^. tone
+
+instance Ord Hit where
+  x <= y
+    | xDur  < yDur = True
+    | xDur == yDur = cmpToneVol x y
+    | otherwise    = False
+    where xDur = x ^. dur
+          yDur = y ^. dur
+
 -- | Used for combining Hits and Beats
 data Beat =
     None
@@ -67,7 +83,7 @@ arbnB n = frequency [
 
 -- | We wrap a `Beat` in the `Composition` data structure in order
 -- create a monad instance for it.
-data Composition a = Composition (Beat, a) deriving (Show, Eq)
+data Composition a = Composition (Beat, a) deriving (Show)
 
 type Song = Composition ()
 
