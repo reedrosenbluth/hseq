@@ -98,3 +98,18 @@ ashley = dseq ClosedHihat 8 "7.7. 7.7. 7... 7.7."
       <> dseq Tambourine  8 "7.7. 7.7. 7.7. 7.7."
       <> dseq SnareDrum1  8 ".... 7... .... 7..."
       <> dseq BassDrum1   8 "7.7. ..7. .77. ...."
+
+-- Energy
+-- Tempo: 180
+energy = dseq ClosedHihat 8 "7777 7777 7777 7777"
+      <> dseq SnareDrum1  8 ".... 7... .... 7..."
+      <> dseq OpenHihat   8 ".... 7... .... 7..."
+      <> dseq BassDrum1   8 "7..7 ..77 ..7. .7.."
+
+energyFlare = (dseq ClosedHihat 8 "7777 7777 7777 77"   >> dseq ClosedHihat 16 "777")
+       <> dseq SnareDrum1  8 ".... 7... .... 7..."
+       <> dseq OpenHihat   8 ".... 7... .... 7..."
+       <> dseq BassDrum1   8 "7..7 ..77 ..7. .7.."
+
+
+energySong = replicateM_ 3 energy >> energyFlare
