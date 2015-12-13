@@ -15,20 +15,20 @@ instance Eq (Composition a) where
 
 spec :: Spec
 spec = do
-  describe "associative property for series" $ do
+  describe "associative property" $ do
     it "of series" $
       property $
         \x y z -> ((x >> y) >> z)
                == ((x :: Song) >> ((y :: Song) >> (z :: Song)))
 
-  describe "associative property for parallel" $ do
+  describe "associative property" $ do
     it "of series" $
       property $
         \x y z -> ((x <> y) <> z)
                == (x :: Song) <> ((y :: Song) <> (z :: Song))
 
-  describe "commutativity property for parallel" $ do
-    it "of series" $
+  describe "commutativity property" $ do
+    it "of parallel" $
       property $
         \x y -> (x <> y)
              == ((y :: Song) <> (x :: Song))
