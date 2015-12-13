@@ -1,6 +1,47 @@
 Names: Reed Rosenbluth and Jonathan Dubin
 Pennkeys: reedros and dubinj
 
+What was the goal of your project?
+The goal of the project was to create an embedded DSL for composing drum beats.
+
+What was the most significant challenge that you faced in completing the project?
+Determining how to test our code was one challenge. At first,
+we were unsure of how we could test our code, since throughout development,
+the primary means of testing our code was by listening to the generated
+beats and making sure they sounded like we expected. Nevertheless,
+we knew that we would have to add testing to the project, and it ultimately
+helped our code. In order to make our code amenable to testing,
+we did have to refactor a bit. 
+
+What is the most impressive aspect of what you built?
+******
+
+What was the most interesting thing you learned?
+It can be easy to come away from using Haskell and concluding
+that the Haskell's expressive type system is great for
+academic uses, for example as a means of studying types, but 
+would otherwise "get in the way" of more practical, less
+academic work. However, throughout the project
+it became very clear that far from getting in the way of our
+development, Haskell made what would have been very hairy in other
+languages, extremely simple (we can talk more about this during the demo).
+
+
+What grade do you feel you deserve for this project, and why?
+We feel that we deserve an A for this project. We definitely
+think the coolest thing we've accomplished was using Haskell
+to build a very powerful and practical DSL for making
+drum beats in Haskell. As far as areas for improvement,
+we think we did a good job testing our code, but more testing
+is always helpful, and could further confirm the code's "correctness".
+
+
+Any other comments?
+We had a lot of fun working on this project!
+
+One resource we looked at for inspiration was the 
+excellent Bang library (https://hackage.haskell.org/package/Bang). 
+
 src/Types.hs
 The Types file contains the basic music types that we use
 throughout the project. The core types are Sound, Hit, Beat,
