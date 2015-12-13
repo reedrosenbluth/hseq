@@ -41,8 +41,11 @@ TypesSpec is home to our QuickCheck tests. The tests
 confirm that layering beats is associative and commutative,
 and that sequencing beats is associative. 
 
-Dependencies to install: [MIDI lib], [other cabal packages]
+Dependencies to install: hmidi, lens, random, QuickCheck, hspec, mtl
 
-To get started listening to beats, load the Example file 
-with `:load example` and play one of our beats with
-`play funky 210`.
+Usage:
+We used Stack to manage dependencies and build our project.
+To build and install, run `stack build`.
+To use, run `stack ghci` and load the Example file with `:load example`.
+You can play one of our example beats with `play funky 210`.
+To run the test cases, run `stack test`.
