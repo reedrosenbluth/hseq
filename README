@@ -1,0 +1,48 @@
+Names: Reed Rosenbluth and Jonathan Dubin
+Pennkeys: reedros and dubinj
+
+src/Types.hs
+The Types file contains the basic music types that we use
+throughout the project. The core types are Sound, Hit, Beat,
+Composition, and Song. In addition to defining the types, we
+also create a number of typeclass instances, including the arbitrary
+instances for Sound, Hit, Beat, and Song that we use for testing. 
+
+
+src/Play.hs
+The Play file contains the code pertaining to how the 
+music actually gets generated. Once you create a Composition,
+we need to listen to it! The `play` function is the 
+principle function here: it's what users will typically use to
+play their compositions. The other functions in this file are called by 
+play to trasnform the composition into MIDI events, and finally 
+to play the MIDI events on the user's computer.
+
+
+src/Drums.hs
+The elements and functions defined in the Drums file will
+help a user get started making beats. We've defined several
+basic "beats", like bass drum and high hat hits. We also have
+a loop function, for easily looping beats. The dseq function
+let's users use dseq notation to quickly create beats. For examples
+of dseq notation, checkout the Example.hs
+
+src/Example.hs
+The Example file contains several beats that have already been 
+created, that the user can play around with. 
+
+
+src/Interpret.hs
+Helper functions, tempo mapping, merging
+
+
+test/TypesSpec.hs
+TypesSpec is home to our QuickCheck tests. The tests 
+confirm that layering beats is associative and commutative,
+and that sequencing beats is associative. 
+
+Dependencies to install: [MIDI lib], [other cabal packages]
+
+To get started listening to beats, load the Example file 
+with `:load example` and play one of our beats with
+`play funky 210`.
