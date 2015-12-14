@@ -5,7 +5,7 @@ import Drum
 import Control.Monad
 
 -- | convert a string in the DSEQ format to a `Song` with a `Sound`
---   and a volume
+-- and a volume
 dseq :: Sound -> Rational -> String -> Song
 dseq s n cs = zipWithM_ velocity vs ts
   where

@@ -8,13 +8,13 @@ volume :: Rational
 volume = 127
 
 -- | set the duration for each `Hit` in a `Song`
---   where the first argument represents the duration as a
---   fraction of a whole note.
+-- where the first argument represents the duration as a
+-- fraction of a whole note.
 note :: Rational -> Song -> Song
 note n = cmap (\h -> h & dur .~ 4 / n)
 
 -- | modify the duration for each `Hit` in a `Song` to be
---   1.5 times as long
+-- 1.5 times as long
 dot :: Song -> Song
 dot = cmap (\h -> h & dur %~ (* 1.5))
 
