@@ -36,13 +36,6 @@ spec = do
         \x y -> (x <> y)
              == ((y :: Song) <> (x :: Song))
 
-  describe "interpret" $ do
-    it "totalDur" $
-      property $
-        \b -> if b == None then True else
-                (totalDur $ getBeat $ applyTempo 50  $ song b) >
-                (totalDur $ getBeat $ applyTempo 100 $ song b)
-
   describe "drum" $ do
     it "note" $
       n1 bd `shouldBe` hsong (Hit BassDrum1 4 volume)
