@@ -23,7 +23,7 @@ Finally we can play it at a specific tempo
 > play beat 200
 ```
 
-We can also compose beats using [dseq](http://www.csounds.com/journal/issue8/dseq.html notation)
+We can also compose beats using [dseq](http://www.csounds.com/journal/issue8/dseq.html) notation
 ``` haskell
 funky = dseq OpenHihat   8 ".... ...7 .... .7.."
      <> dseq ClosedHihat 8 "7777 777. 7777 7.77"
