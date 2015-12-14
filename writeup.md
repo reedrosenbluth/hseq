@@ -120,9 +120,9 @@ use to merge two lists of hits and to take a composition and turn it
 into a list of hits, respectively.
 
 
-### test/TypesSpec.hs
+### test/DjembeSpec.hs
 
-TypesSpec is home to our test cases. We are using the HSpec library to
+DjembeSpec is home to our test cases. We are using the HSpec library to
 organize our quickcheck and unit tests. The quickcheck tests confirm
 that layering beats (using the mappend operator) is associative and
 commutative, and that sequencing beats (using bind) is
