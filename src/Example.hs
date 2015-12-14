@@ -6,6 +6,7 @@ import Control.Monad
 import Types
 import Drum
 import Play
+import Dseq
 
 beat1 = mconcat [ sequence_ [hi, hi, hi, hi],
                   sequence_ [bd, sn, bd, sn] ]
