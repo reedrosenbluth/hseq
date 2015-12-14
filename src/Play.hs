@@ -11,6 +11,7 @@ import Types
 import Drum
 import Interpret
 
+-- | convert a `Hit` to a `MidiEvent`
 hitToMidiEvent :: Hit -> MidiEvent
 hitToMidiEvent h = MidiEvent d (MidiMessage 1 (NoteOn t v))
   where
@@ -26,6 +27,7 @@ getConnection = do
       [] -> error "No MIDI Devices found."
       (dst:_) -> openDestination dst
 
+-- | play a composition at a given tempo
 play :: Composition a -> Rational -> IO ()
 play comp n = do
     conn <- getConnection
@@ -36,6 +38,7 @@ play comp n = do
 play' :: Composition a -> IO ()
 play' = flip play 120
 
+-- | loop a composition at a given tempo
 loop' :: Song -> Rational -> IO ()
 loop' s = play (loop s)
 

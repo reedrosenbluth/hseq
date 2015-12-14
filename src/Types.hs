@@ -105,7 +105,7 @@ instance Monad Composition where
   return a = Composition (None, a)
   Composition (b, a) >>= k =
     let (Composition (b', a')) = k a
-    in  Composition (Series b b', a')
+    in Composition (Series b b', a')
 
 instance Monoid (Composition ()) where
   mempty = Composition (None, ())
