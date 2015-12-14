@@ -1,4 +1,4 @@
-Names: Reed Rosenbluth and Jonathan Dubin  
+Names: Reed Rosenbluth and Jonathan Dubin
 Pennkeys: reedros and dubinj
 
 # Djembe
@@ -9,8 +9,7 @@ The goal of the project was to create an embedded DSL for composing
 and playing drum beats.
 
 
-### What was the most significant challenge that you faced in
-    completing the project?
+### What was the most significant challenge that you faced in completing the project?
 
 The most significant challenge was figuring out to best represent a
 drum beat in Haskell so that they can easily be combined to create new
@@ -30,8 +29,7 @@ it amenable to testing.
 I think the most impressive aspect of our project is how we combined a
 broad set of abstract Haskell constructs (eDSL, Monad, Monoid, etc.)
 to achieve our goal of making drum beats. Additionally, we implemented
-a DSL called [DSEQ](http://www.csounds.com/journal/issue8/dseq.html)
-(**d**rum **seq**encer) on top of our DSL to make it even easier to
+a DSL called [DSEQ](http://www.csounds.com/journal/issue8/dseq.html) (**d**rum **seq**encer) on top of our DSL to make it even easier to
 compose beats.
 
 
@@ -62,7 +60,7 @@ We really had a lot of fun in this class and especially working on
 this project!
 
 
-### What resources did you use in completing the project? 
+### What resources did you use in completing the project?
 
 - [Bang](https://hackage.haskell.org/package/Bang)
 - [DSEQ](http://www.csounds.com/journal/issue8/dseq.html)
@@ -131,15 +129,29 @@ commutative, and that sequencing beats (using bind) is
 associative. Because of how the code is organized, these tests also
 test other portions of the codebase, including song construction.
 
-===========================================================================
 
 # Usage:
+First, you'll need to download and install
+[SimpleSynth](http://notahat.com/simplesynth/). Next, you'll need to
+set up a MIDI IAC driver. Open Audio MIDI Setup (in `Applications ->
+Utilities`) and press ⌘2 (or go `Window -> Show MIDI Window`). You
+should see a slightly greyed out **IAC Driver** icon. Double click it,
+then check the box labeled "Device is online."  Launch SimpleSynth and
+set the MIDI Source to "**IAC Driver Bus 1**" (or whatever you named
+your IAC driver) using the drop-down box at the top of the
+window. Audio from `Djembe` should now feed into and play through
+SimpleSynth. Alternatively, you can now use Garageband or any other
+software to can play MIDI to play your drum beats.
 
-1. Clone Repo
-2. Install Stack: `brew install stack`
-3. Build and Install dependencies: `stack build`
-4. Open the repl: `stack ghci`
-5. Load the example beats: `:l Example`
-6. Play a beat: `play funky 210`
+Now clone and install the dependencies with Stack
+
+    git clone https://github.com/reedrosenbluth/Djembe
+    brew install stack
+    stack build
+
+# Usage:
+1. Open the repl: `stack ghci`
+2. Load the example beats: `:l Example`
+3. Play a beat: `play funky 210`
 
 To Test run `stack test`.
