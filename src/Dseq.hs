@@ -10,7 +10,7 @@ dseq :: Sound -> Rational -> String -> Song
 dseq s n cs = zipWithM_ velocity vs ts
   where
     vs = map toVol (filter (`elem` ".0123456789") cs)
-    ts = repeat $ note n (song $ Hit s 0 0)
+    ts = repeat $ note n (hsong $ Hit s 0 0)
 
 toVol :: Char -> Rational
 toVol '.' = 0
