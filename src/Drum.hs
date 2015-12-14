@@ -24,20 +24,23 @@ n64 = note 64
 loop :: Song -> Song
 loop s = s >> loop s
 
-song :: Hit -> Song
-song h = Composition (Single h, ())
+song :: Beat -> Song
+song b = Composition (b, ())
+
+hsong :: Hit -> Song
+hsong = song . Single
 
 velocity :: Rational -> Song -> Song
 velocity v = cmap (\h -> h & vol .~ max 0 (min 127 v))
 
 bd :: Song
-bd = n4 $ song (Hit BassDrum1 0 volume)
+bd = n4 $ hsong (Hit BassDrum1 0 volume)
 
 sn :: Song
-sn = n4 $ song (Hit SnareDrum2 0 volume)
+sn = n4 $ hsong (Hit SnareDrum2 0 volume)
 
 hi :: Song
-hi = n4 $ song (Hit ClosedHihat 0 volume)
+hi = n4 $ hsong (Hit ClosedHihat 0 volume)
 
 rt :: Song
-rt = n4 $ song (Hit BassDrum1 0 0)
+rt = n4 $ hsong (Hit BassDrum1 0 0)
