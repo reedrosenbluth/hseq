@@ -2,8 +2,6 @@
 
 Djembe is a Haskell embedded domain-specific language for composing drum beats.
 
-It is currently a work in progress.
-
 ## Example
 
 Let's define a few quarter note length drum hits
