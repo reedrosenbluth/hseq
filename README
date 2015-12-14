@@ -2,91 +2,128 @@ Names: Reed Rosenbluth and Jonathan Dubin
 Pennkeys: reedros and dubinj
 
 # What was the goal of your project?
-The goal of the project was to create an embedded DSL for composing drum beats.
 
-# What was the most significant challenge that you faced in completing the project?
-Determining how to test our code was one challenge. At first,
-we were unsure of how we could test our code, since throughout development,
-the primary means of testing our code was by listening to the generated
-beats and making sure they sounded like we expected. Nevertheless,
-we knew that we would have to add testing to the project, and it ultimately
-helped our code. In order to make our code amenable to testing,
-we did have to refactor a bit. 
+The goal of the project was to create an embedded DSL for composing
+drum beats.
+
+---------------------------------------------------------------------------
+
+# What was the most significant challenge that you faced in completing
+the project?
+
+Determining how to test our code was one challenge. At first, we were
+unsure of how we could test our code, since ostensibly, determining
+whether a beat was constructed correctly relies on us listening to the
+beat and making sure it sounded like we expected. However, we realized
+that we could (and should) still test the underlying Haskell
+representation of our beats. To that end, we had to refactor the code a
+bit to make it amenable to testing. 
+
+---------------------------------------------------------------------------
 
 # What is the most impressive aspect of what you built?
+
 ******
 
-# What was the most interesting thing you learned?
-It can be easy to come away from using Haskell and concluding
-that the Haskell's expressive type system is great for
-academic uses, for example as a means of studying types, but 
-would otherwise "get in the way" of more practical, less
-academic work. However, throughout the project
-it became very clear that far from getting in the way of our
-development, Haskell made what would have been very hairy in other
-languages, extremely simple (we can talk more about this during the demo).
+---------------------------------------------------------------------------
 
+# What was the most interesting thing you learned?
+
+It can be easy to come away from using Haskell and concluding that
+Haskell's powerful type system and the more "algebraic" typeclasses
+are great for academic exercise, but would otherwise get in the way
+of more practical work. However, throughout the project, it
+became very clear that far from getting in the way of development,
+Haskell made would have been otherwise hair in other languages,
+extremely simply, and we would be happy to talk about this more during
+the demo.
 
 # What grade do you feel you deserve for this project, and why?
-We feel that we deserve an A for this project. We definitely
-think the coolest thing we've accomplished was using Haskell
-to build a very powerful and practical DSL for making
-drum beats in Haskell. As far as areas for improvement,
-we think we did a good job testing our code, but more testing
-is always helpful, and could further confirm the code's "correctness".
+
+We feel that we deserve an A for this project, namely because
+we really leveraged the power of Haskell to create a cool
+and useful project. Everything from creating our own data types,
+to arbitrary instances of those types, and instances of the
+monad, applicative, functor, and monoid typeclasses. And we
+were able to use these to create a project that is a lot of
+fun to play with and use. 
+
+---------------------------------------------------------------------------
 
 # Any other comments?
+
 We had a lot of fun working on this project!
 
+---------------------------------------------------------------------------
+
 # What resources did you use in completing the project? 
-One resource we looked at for inspiration was the 
-excellent Bang library (https://hackage.haskell.org/package/Bang). 
 
-src/Types.hs
-The Types file contains the basic music types that we use
-throughout the project. The core types are Sound, Hit, Beat,
-Composition, and Song. In addition to defining the types, we
-also create a number of typeclass instances, including the arbitrary
-instances for Sound, Hit, Beat, and Song that we use for testing. 
+One resource we looked at for inspiration was the excellent Bang
+library (https://hackage.haskell.org/package/Bang).
 
+===========================================================================
 
-src/Play.hs
-The Play file contains the code pertaining to how the 
-music actually gets generated. Once you create a Composition,
-we need to listen to it! The `play` function is the 
-principle function here: it's what users will typically use to
-play their compositions. The other functions in this file are called by 
-play to trasnform the composition into MIDI events, and finally 
-to play the MIDI events on the user's computer.
+# A summary of the files
 
+## src/Types.hs
 
-src/Drums.hs
-The elements and functions defined in the Drums file will
-help a user get started making beats. We've defined several
-basic "beats", like bass drum and high hat hits. We also have
-a loop function, for easily looping beats. The dseq function
-let's users use dseq notation to quickly create beats. For examples
-of dseq notation, checkout the Example.hs
+The Types file contains the basic music types that we use throughout
+the project. The core types are Sound, Hit, Beat, Composition, and
+Song. In addition to defining the types, we also create a number of
+typeclass instances, including the arbitrary instances for Sound, Hit,
+Beat, and Song that we use for testing.
 
-src/Example.hs
-The Example file contains several beats that have already been 
-created, that the user can play around with. 
+---------------------------------------------------------------------------
 
+## src/Play.hs
 
-src/Interpret.hs
+The Play file contains the code pertaining to how the music actually
+gets generated. Once you create a Composition, we need to listen to
+it! The `play` function is the principle function here: it's what
+users will typically use to play their compositions. The other
+functions in this file are called by play to transform the composition
+into MIDI events, and finally to play the MIDI events on the user's
+computer.
+
+---------------------------------------------------------------------------
+
+## src/Drums.hs
+
+The elements and functions defined in the Drums file will help a user
+get started making beats. We've defined several basic "beats", like
+bass drum and high hat hits. We also have a loop function, for easily
+looping beats. The dseq function let's users use dseq notation to
+quickly create beats. For examples of dseq notation, checkout the
+Example.hs
+
+---------------------------------------------------------------------------
+
+## src/Example.hs
+
+The Example file contains several beats that have already been
+created, that the user can play around with.
+
+---------------------------------------------------------------------------
+
+## src/Interpret.hs
+
 Helper functions, tempo mapping, merging
 
+---------------------------------------------------------------------------
 
-test/TypesSpec.hs
-TypesSpec is home to our QuickCheck tests. The tests 
-confirm that layering beats is associative and commutative,
-and that sequencing beats is associative. 
+## test/TypesSpec.hs
+
+TypesSpec is home to our QuickCheck tests. The tests confirm that
+layering beats is associative and commutative, and that sequencing
+beats is associative.
+
+===========================================================================
+
+# Usage:
 
 Dependencies to install: hmidi, lens, random, QuickCheck, hspec, mtl
 
-Usage:
-We used Stack to manage dependencies and build our project.
-To build and install, run `stack build`.
-To use, run `stack ghci` and load the Example file with `:load example`.
-You can play one of our example beats with `play funky 210`.
-To run the test cases, run `stack test`.
+We used Stack to manage dependencies and build our project.  To build
+and install, run `stack build`.  To use, run `stack ghci` and load the
+Example file with `:load example`.  You can play one of our example
+beats with `play funky 210`.  To run the test cases, run `stack test`.
