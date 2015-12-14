@@ -67,55 +67,64 @@ library (https://hackage.haskell.org/package/Bang).
 
 ## src/Types.hs
 
-The Types file contains the basic music types that we use throughout
+Types.hs contains the fundamental types that we use throughout
 the project. The core types are Sound, Hit, Beat, Composition, and
-Song. In addition to defining the types, we also create a number of
+Song. In addition to defining these types, we also create a number of
 typeclass instances, including the arbitrary instances for Sound, Hit,
-Beat, and Song that we use for testing.
+Beat, and Song that we use for testing. We also define (for some of our types)
+type class instances for Functor, Applicative, Ord, Monad, and Monoid. 
 
 ---------------------------------------------------------------------------
 
 ## src/Play.hs
 
-The Play file contains the code pertaining to how the music actually
-gets generated. Once you create a Composition, we need to listen to
+Play.hs contains the code pertaining to how the music actually
+gets generated and play. Once you create a Composition, we need to listen to
 it! The `play` function is the principle function here: it's what
 users will typically use to play their compositions. The other
 functions in this file are called by play to transform the composition
-into MIDI events, and finally to play the MIDI events on the user's
+into MIDI events and finally to play the MIDI events on the user's
 computer.
 
 ---------------------------------------------------------------------------
 
 ## src/Drums.hs
 
-The elements and functions defined in the Drums file will help a user
-get started making beats. We've defined several basic "beats", like
-bass drum and high hat hits. We also have a loop function, for easily
-looping beats. The dseq function let's users use dseq notation to
-quickly create beats. For examples of dseq notation, checkout the
-Example.hs
+The elements and functions defined in Drums.hs will help a user
+get started making beats. We include definitions for several basic hits,
+like bass drum and high hat hits. We also include functions that the user
+can use to easily transform hits to a song, to change the velocity 
+of their song, and to loop their songs. The dseq function also let's
+users use dseq notation to quickly create beats. For examples of dseq notation,
+check out Example.hs.
 
 ---------------------------------------------------------------------------
 
 ## src/Example.hs
 
-The Example file contains several beats that have already been
-created, that the user can play around with.
+Example.hs contains several beats that have already been
+defined, that the user can play around with and use as inspiration
+for their own beats. We make liberal use of dseq notation here,
+to construct our beats. 
 
 ---------------------------------------------------------------------------
 
 ## src/Interpret.hs
 
-Helper functions, tempo mapping, merging
+Interpret contains a number of helper functions related to interpreting 
+beats. Two notable functions here are mergeHits and toHits,
+which we use to merge two lists of hits, and take a composition and turn it 
+into a hit list, respectively.
 
 ---------------------------------------------------------------------------
 
 ## test/TypesSpec.hs
 
-TypesSpec is home to our QuickCheck tests. The tests confirm that
+TypesSpec is home to our QuickCheck tests. Particularly, The tests confirm that
 layering beats is associative and commutative, and that sequencing
-beats is associative.
+beats is associative. Because of how the code is organized, these 
+tests also test other potions of the code base, including song
+construction.
 
 ===========================================================================
 
@@ -124,6 +133,6 @@ beats is associative.
 Dependencies to install: hmidi, lens, random, QuickCheck, hspec, mtl
 
 We used Stack to manage dependencies and build our project.  To build
-and install, run `stack build`.  To use, run `stack ghci` and load the
-Example file with `:load example`.  You can play one of our example
+and install, run `stack build`.  To use, run `stack ghci` and load
+Example.hs with `:load example`.  You can play one of our example
 beats with `play funky 210`.  To run the test cases, run `stack test`.
