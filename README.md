@@ -2,6 +2,13 @@
 
 Djembe is a Haskell embedded domain-specific language for composing drum beats.
 
+## Install
+Clone the project and run `stack install Djembe`. Next run `stack setup` then `stack build`.
+
+## OSX Setup
+
+Open Audio MIDI Setup (`Applications -> Utilities`) and press ⌘2 (or go `Window -> Show MIDI Window`). Double click it **IAC Driver**, then check the box labeled "Device is online." Audio from `Djembe` should play through Garageband.
+
 ## Example
 
 Let's define a few quarter note length drum hits
@@ -16,7 +23,7 @@ Now let's create a simple composition
 beat = bass <> snare <> bass <> hihat
 ```
 
-Finally we can play it at a specific tempo
+Finally we can play it at a specific tempo. In ghci (`stack ghci`):
 ```haskell
 > play beat 200
 ```
