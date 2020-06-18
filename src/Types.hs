@@ -107,10 +107,12 @@ instance Monad Composition where
     let (Composition (b', a')) = k a
     in Composition (Series b b', a')
 
+instance Semigroup (Composition ()) where
+  (Composition (b1, _)) <> (Composition (b2, _))
+    = Composition (Parallel b1 b2, ())
+
 instance Monoid (Composition ()) where
   mempty = Composition (None, ())
-  mappend (Composition (b1, _)) (Composition (b2, _))
-    = Composition (Parallel b1 b2, ())
 
 -- | Lift a function on `Hit`s over a `Composition`
 cmap :: (Hit -> Hit) -> Composition a -> Composition a

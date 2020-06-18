@@ -1,5 +1,5 @@
 flags: {}
 packages:
 - '.'
-extra-deps: [hmidi-0.2.2.0]
-resolver: lts-2.22
+extra-deps: [hmidi-0.2.2.1]
+resolver: lts-16.1
