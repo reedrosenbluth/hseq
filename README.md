@@ -1,6 +1,6 @@
-# Djembe
+# hseq
 
-Djembe is a Haskell embedded domain-specific language for composing drum beats.
+hseq is a Haskell embedded domain-specific language for composing rhythmic sequences.
 
 ## Install
 Clone the project and run `stack install Djembe`. Next run `stack setup` then `stack build`.
